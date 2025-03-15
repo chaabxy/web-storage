@@ -1,44 +1,32 @@
-// Menyimpan kunci (key) untuk menyimpan data di localStorage
-const localStorageKey = "PRESS_FREQUENCY";
+const sessionStorageKey = "PRESS_FREQUENCY";
 
-// Mengecek apakah browser mendukung Web Storage
+// Pengecekan: apakah data sessionStorage dengan key count tersedia atau belum
 if (typeof Storage !== "undefined") {
-  // Mengecek apakah key 'PRESS_FREQUENCY' sudah ada di localStorage atau belum
-  if (localStorage.getItem(localStorageKey) === null) {
-    // Jika belum ada, set nilai awalnya menjadi 0
-    localStorage.setItem(localStorageKey, 0);
+  if (sessionStorage.getItem(sessionStorageKey) === null) {
+    // Jika item pada session storage belum ada, datanya akan diatur dengan nilai awal, yakni 0
+    sessionStorage.setItem(sessionStorageKey, 0);
   }
 
-  // Mendapatkan referensi elemen tombol tambah, tombol reset, dan elemen untuk menampilkan jumlah klik
   const incrementButton = document.querySelector("#incrementButton");
   const clearButton = document.querySelector("#clear");
   const countDisplay = document.querySelector("#count");
 
-  // Menampilkan nilai awal dari localStorage ke dalam elemen countDisplay
-  countDisplay.innerText = localStorage.getItem(localStorageKey);
+  // Memberikan nilai item dari session storage
+  countDisplay.innerText = sessionStorage.getItem(sessionStorageKey);
 
-  // Menambahkan event listener pada tombol increment
+  // Mengupdate nilai dari item session storage jika tombol ditekan
   incrementButton.addEventListener("click", function () {
-    // Mengambil nilai saat ini dari localStorage
-    let count = localStorage.getItem(localStorageKey);
-    count++; // Menambahkan nilai count (+1)
-
-    // Memperbarui nilai count di localStorage
-    localStorage.setItem(localStorageKey, count);
-
-    // Menampilkan nilai terbaru di halaman
-    countDisplay.innerText = localStorage.getItem(localStorageKey);
+    let count = sessionStorage.getItem(sessionStorageKey);
+    count++;
+    sessionStorage.setItem(sessionStorageKey, count);
+    countDisplay.innerText = sessionStorage.getItem(sessionStorageKey);
   });
 
-  // Menambahkan event listener pada tombol clear
+  // Memberikan nilai 0 ke tampilan karena di-reset dan menghapus item
   clearButton.addEventListener("click", function () {
-    // Menghapus data dari localStorage
-    localStorage.removeItem(localStorageKey);
-
-    // Menampilkan angka 0 karena data dihapus
+    sessionStorage.removeItem(sessionStorageKey);
     countDisplay.innerText = 0;
   });
 } else {
-  // Jika browser tidak mendukung Web Storage, tampilkan peringatan
   alert("Browser yang Anda gunakan tidak mendukung Web Storage");
 }
